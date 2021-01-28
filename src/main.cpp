@@ -1,18 +1,14 @@
 #include "main.h"
 using namespace std;
 
-constexpr auto pinCS = D6;
-constexpr auto numberOfHorizontalDisplays = 4;
-constexpr auto numberOfVerticalDisplays = 1;
-
-constexpr auto DHTPin = D4;
-
 const char *update_path = "/firmware";
 bool is_safe_mobe = false;
 
 void mqtt_send();
 
+Adafruit_BMP085 bmp;
 DHTesp dht;
+auto sht30 = Adafruit_SHT31();
 
 ESP8266WebServer serverWeb(SERVER_PORT_WEB);
 CMQTT mqtt;
@@ -29,10 +25,33 @@ te_ret get_about(ostream &out) {
 }
 
 te_ret get_status(ostream &out) {
-    out << "{\"temperature\":";
+    out << "{";
+
+    out << "\"dht\":{";
+    out << "\"temperature\":";
     toJson(out, dht.getTemperature());
     out << ",\"humidity\":";
     toJson(out, dht.getHumidity());
+    out << "},";
+
+    out << "\"sht30\":{";
+    out << "\"temperature\":";
+    toJson(out, sht30.readTemperature());
+    out << ",\"humidity\":";
+    toJson(out, sht30.readHumidity());
+    out << "},";
+
+    out << "\"bmp\":{";
+    out << "\"temperature\":";
+    toJson(out, bmp.readTemperature());
+    out << ",\"pressure\":";
+    auto pressure = bmp.readPressure();
+    if (!isnan(pressure)) {
+        pressure *= 0.00750061683; //to mmHg.(1 Pascal = 0.00750061683 Torr (mmHg))
+    }
+    toJson(out, pressure);
+    out << "}";
+
     out << "}";
     return er_ok;
 }
@@ -152,6 +171,10 @@ void setup() {
 
 //------------------
     dht.setup(DHTPin, DHTesp::DHT22);
+    sht30.begin(0x45);
+    if (!bmp.begin()) {
+        DBG_OUT << "Could not find BMP180 sensor at 0x77" << endl;
+    }
 //-----------------
 
     setup_WIFIConnect();

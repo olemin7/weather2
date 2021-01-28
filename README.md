@@ -14,13 +14,13 @@ TX  | TXD         | TXD          |
 RX  | RXD         | RXD          |
 A0  | ADC, 3.3V   | A0           | photoresistor
 D0  | IO          | GPIO16       |
-D1  | IO, SCL     | GPIO5        | LedStript.in
-D2  | IO, SDA     | GPIO4        | WallSwitch.out
-D3  | IO, 10k P-up| GPIO0        | IRsensor.OUT
-D4  | IO, 10k P-up,LED|   GPIO2  | DHT.data
-D5  | IO, SCK     | GPIO14       | MAX7219.CLK
-D6  | IO, MISO    | GPIO12       | MAX7219.CS
-D7  | IO, MOSI    | GPIO13       | MAX7219.DIN
+D1  | IO, SCL     | GPIO5        | 
+D2  | IO, SDA     | GPIO4        |
+D3  | IO, 10k P-up| GPIO0        | 
+D4  | IO, 10k P-up,LED|   GPIO2  | 
+D5  | IO, SCK     | GPIO14       | 
+D6  | IO, MISO    | GPIO12       | DHT.data
+D7  | IO, MOSI    | GPIO13       | 
 D8  | IO, 10k P-down, SS|  GPIO15|
 G   | Ground      | GND          |
 5V  | 5V          | -            |
@@ -42,7 +42,7 @@ RST | Reset       | RST          |
 
 #DHT
 1 vcc (3.3V)
-2 data (D4)
+2 data (D6)
 3 nc
 4 GND (G)
 

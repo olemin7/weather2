@@ -25,6 +25,8 @@
 #include <ctime>
 
 #include "DHTesp.h"
+#include <Adafruit_SHT31.h>
+#include <Adafruit_BMP085.h>
 
 #include "./libs/CMQTT.h"
 #include "./libs/misk.h"
@@ -37,5 +39,7 @@
 
 #define SERIAL_BAUND 115200
 #define SERVER_PORT_WEB 80
-#define WIFI_CONNECT_TIMEOUT 20000 //ms
+
+constexpr auto DHTPin = D6;
+
 #endif /* CLOCK_CLOCK_H_ */
